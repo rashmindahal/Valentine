@@ -196,19 +196,44 @@ const area = document.getElementById("area");
 const overlay = document.getElementById("overlay");
 const flowers = document.getElementById("flowers");
 
+let noPressCount = 0;
+
 function moveNo() {
   const a = area.getBoundingClientRect();
-  const x = Math.random() * (a.width - 100);
-  const y = Math.random() * (a.height - 40);
+  const x = Math.random() * (a.width - 110);
+  const y = Math.random() * (a.height - 45);
   no.style.left = x + "px";
   no.style.top = y + "px";
 }
 
-["mouseenter","click","touchstart"].forEach(e =>
-  no.addEventListener(e, moveNo)
-);
+function askAreYouSure(){
+  // simple popup (works everywhere). If she clicks OK, we keep teasing 😄
+  alert("Are you sure you don’t wanna be my valentine? 🥺❤️");
+}
+
+["click","touchstart"].forEach(evt => {
+  no.addEventListener(evt, (e) => {
+    e.preventDefault();
+    noPressCount++;
+
+    // After 3 presses, ask the question (only once at 3)
+    if (noPressCount === 3) {
+      askAreYouSure();
+    }
+
+    moveNo();
+  }, { passive: false });
+});
 
 yes.addEventListener("click", () => {
+  // ✅ Change watermark instantly on YES
+  document.documentElement.style.setProperty("--bg-url", 'url("watermark_yes.jpg")');
+
+  // Optional: make it even clearer after YES
+  document.documentElement.style.setProperty("--bg-opacity", "0.65");
+  document.documentElement.style.setProperty("--bg-blur", "1px");
+  document.documentElement.style.setProperty("--bg-brightness", "0.85");
+
   overlay.classList.add("show");
   flowers.classList.add("show");
   shower();
@@ -216,13 +241,13 @@ yes.addEventListener("click", () => {
 
 function shower() {
   const emojis = ["🌸","🌹","💐","🌺","❤️","✨"];
-  for (let i = 0; i < 120; i++) {
+  for (let i = 0; i < 140; i++) {
     const f = document.createElement("div");
     f.className = "petal";
-    f.textContent = emojis[Math.floor(Math.random()*emojis.length)];
-    f.style.left = Math.random()*100 + "vw";
-    f.style.fontSize = 16 + Math.random()*20 + "px";
-    f.style.animationDuration = 3 + Math.random()*4 + "s";
+    f.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    f.style.left = Math.random() * 100 + "vw";
+    f.style.fontSize = 16 + Math.random() * 20 + "px";
+    f.style.animationDuration = 3 + Math.random() * 4 + "s";
     flowers.appendChild(f);
     setTimeout(() => f.remove(), 7000);
   }
