@@ -1,0 +1,232 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valentine for GARRU ❤️</title>
+
+<style>
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  overflow: hidden;
+  color: white;
+}
+
+/* 💕 Watermark background image */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: url("watermark.jpg") center / cover no-repeat;
+  filter: blur(6px) brightness(0.6);
+  opacity: 0.35;
+  z-index: -2;
+}
+
+/* Romantic overlay */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at top, rgba(255,105,180,0.3), transparent 60%),
+              linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.6));
+  z-index: -1;
+}
+
+.container {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.card {
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 30px;
+  padding: 30px;
+  max-width: 900px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+}
+
+h1 {
+  font-size: clamp(28px, 4vw, 46px);
+  margin-bottom: 10px;
+}
+
+p {
+  font-size: 18px;
+  opacity: 0.9;
+}
+
+.buttons {
+  position: relative;
+  height: 90px;
+  margin-top: 25px;
+}
+
+button {
+  padding: 14px 26px;
+  border-radius: 999px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+  transition: 0.15s ease;
+}
+
+#yes {
+  background: linear-gradient(135deg, #ff4da6, #ff7a59);
+  color: white;
+}
+
+#no {
+  position: absolute;
+  background: rgba(255,255,255,0.25);
+  color: white;
+  left: 60%;
+}
+
+button:active {
+  transform: scale(0.96);
+}
+
+/* 💐 Success message */
+.overlay {
+  position: fixed;
+  inset: 0;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0,0,0,0.6);
+  z-index: 5;
+}
+
+.overlay.show {
+  display: flex;
+}
+
+.message {
+  background: rgba(255,255,255,0.15);
+  padding: 30px;
+  border-radius: 30px;
+  max-width: 900px;
+  text-align: center;
+  backdrop-filter: blur(10px);
+}
+
+.message h2 {
+  font-size: clamp(26px, 4vw, 44px);
+}
+
+.message p {
+  white-space: pre-line;
+  font-size: 18px;
+}
+
+/* 🌸 Flower shower */
+.flowers {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  display: none;
+  z-index: 6;
+}
+
+.flowers.show {
+  display: block;
+}
+
+.petal {
+  position: absolute;
+  top: -10vh;
+  font-size: 22px;
+  animation: fall linear forwards;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(120vh) rotate(720deg);
+  }
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+  <div class="card">
+    <h1>Will you be my valentina <span style="color:#ffb3d9;">GARRU</span>? 💘</h1>
+    <p>Let’s go on a date 💕</p>
+
+    <div class="buttons" id="area">
+      <button id="yes">YES</button>
+      <button id="no">NO</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="overlay">
+  <div class="message">
+    <h2>I KNOW YOU WOULD SAY YES 💐</h2>
+    <p>
+And You will be my always valentine. I love you GARU❤️
+We will rock on date on valentine night.
+May be some romantic end too😉
+
+I love you❤️❤️❤️
+    </p>
+  </div>
+</div>
+
+<div class="flowers" id="flowers"></div>
+
+<script>
+const no = document.getElementById("no");
+const yes = document.getElementById("yes");
+const area = document.getElementById("area");
+const overlay = document.getElementById("overlay");
+const flowers = document.getElementById("flowers");
+
+function moveNo() {
+  const a = area.getBoundingClientRect();
+  const x = Math.random() * (a.width - 100);
+  const y = Math.random() * (a.height - 40);
+  no.style.left = x + "px";
+  no.style.top = y + "px";
+}
+
+["mouseenter","click","touchstart"].forEach(e =>
+  no.addEventListener(e, moveNo)
+);
+
+yes.addEventListener("click", () => {
+  overlay.classList.add("show");
+  flowers.classList.add("show");
+  shower();
+});
+
+function shower() {
+  const emojis = ["🌸","🌹","💐","🌺","❤️","✨"];
+  for (let i = 0; i < 120; i++) {
+    const f = document.createElement("div");
+    f.className = "petal";
+    f.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+    f.style.left = Math.random()*100 + "vw";
+    f.style.fontSize = 16 + Math.random()*20 + "px";
+    f.style.animationDuration = 3 + Math.random()*4 + "s";
+    flowers.appendChild(f);
+    setTimeout(() => f.remove(), 7000);
+  }
+}
+</script>
+</body>
+</html>
